@@ -10,7 +10,6 @@
 
     :root {
       --black: #0a0a0a;
-      --dark: #111111;
       --card: #161618;
       --violet: #8b5cf6;
       --violet-light: #a78bfa;
@@ -24,7 +23,6 @@
     }
 
     html { scroll-behavior: smooth; }
-
     body {
       font-family: 'Inter', -apple-system, sans-serif;
       background: var(--black);
@@ -34,438 +32,262 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    .bg-glow {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 0;
-      overflow: hidden;
-    }
+    /* ── Background ── */
+    .bg-glow { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
     .bg-glow::before {
-      content: '';
-      position: absolute;
-      top: -40%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 800px;
-      height: 800px;
-      background: radial-gradient(circle, rgba(139, 92, 246, 0.08) 0%, transparent 70%);
+      content: ''; position: absolute; top: -40%; left: 50%; transform: translateX(-50%);
+      width: 800px; height: 800px;
+      background: radial-gradient(circle, rgba(139,92,246,0.08) 0%, transparent 70%);
       animation: pulse-glow 8s ease-in-out infinite;
     }
     @keyframes pulse-glow {
-      0%, 100% { opacity: 0.5; transform: translateX(-50%) scale(1); }
-      50% { opacity: 1; transform: translateX(-50%) scale(1.2); }
+      0%,100% { opacity:.5; transform: translateX(-50%) scale(1); }
+      50% { opacity:1; transform: translateX(-50%) scale(1.2); }
     }
 
+    /* ── Admin link (top-right) ── */
+    .admin-link {
+      position: fixed; top: 20px; right: 24px; z-index: 100;
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 16px; border-radius: 10px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      color: var(--gray); font-size: 13px; font-weight: 500;
+      cursor: pointer; text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .admin-link:hover { color: var(--white); background: rgba(255,255,255,0.07); border-color: rgba(139,92,246,0.3); }
+    .admin-link svg { width: 14px; height: 14px; }
+
+    /* ── Form container ── */
+    .form-view { position: relative; z-index: 1; }
     .container {
-      position: relative;
-      z-index: 1;
-      max-width: 640px;
-      margin: 0 auto;
-      padding: 40px 20px 60px;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+      max-width: 640px; margin: 0 auto; padding: 40px 20px 60px;
+      min-height: 100vh; display: flex; flex-direction: column;
     }
 
     .header {
-      text-align: center;
-      padding: 40px 0 48px;
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fade-in-up 0.8s ease forwards;
+      text-align: center; padding: 40px 0 48px;
+      opacity: 0; transform: translateY(20px); animation: fade-in-up 0.8s ease forwards;
     }
     .header .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 14px;
-      border-radius: 100px;
-      background: var(--violet-subtle);
-      border: 1px solid rgba(139, 92, 246, 0.15);
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--violet-light);
-      margin-bottom: 20px;
+      display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px;
+      border-radius: 100px; background: var(--violet-subtle);
+      border: 1px solid rgba(139,92,246,0.15); font-size: 13px; font-weight: 500;
+      color: var(--violet-light); margin-bottom: 20px;
     }
-    .header .badge .dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--violet);
-      animation: blink 2s ease-in-out infinite;
-    }
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
-    .header h1 {
-      font-size: 32px;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      line-height: 1.2;
-      margin-bottom: 12px;
-    }
+    .header .badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--violet); animation: blink 2s ease-in-out infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+    .header h1 { font-size: 32px; font-weight: 700; letter-spacing: -0.5px; line-height: 1.2; margin-bottom: 12px; }
     .header h1 span { color: var(--violet-light); }
-    .header p {
-      color: var(--gray-light);
-      font-size: 15px;
-      line-height: 1.6;
-      max-width: 440px;
-      margin: 0 auto;
-    }
+    .header p { color: var(--gray-light); font-size: 15px; line-height: 1.6; max-width: 440px; margin: 0 auto; }
 
     .progress-container {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      padding: 16px 0 12px;
+      position: sticky; top: 0; z-index: 10; padding: 16px 0 12px;
       background: linear-gradient(to bottom, var(--black) 60%, transparent);
-      opacity: 0;
-      animation: fade-in 0.6s ease 0.3s forwards;
+      opacity: 0; animation: fade-in 0.6s ease 0.3s forwards;
     }
-    .progress-info {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-    }
-    .progress-step {
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--gray-light);
-    }
+    .progress-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .progress-step { font-size: 13px; font-weight: 500; color: var(--gray-light); }
     .progress-step strong { color: var(--white); }
-    .progress-pct {
-      font-size: 13px;
-      color: var(--violet-light);
-      font-weight: 600;
-    }
-    .progress-track {
-      width: 100%;
-      height: 3px;
-      background: var(--border);
-      border-radius: 100px;
-      overflow: hidden;
-    }
+    .progress-pct { font-size: 13px; color: var(--violet-light); font-weight: 600; }
+    .progress-track { width: 100%; height: 3px; background: var(--border); border-radius: 100px; overflow: hidden; }
     .progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--violet), var(--violet-light));
-      border-radius: 100px;
-      transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+      height: 100%; background: linear-gradient(90deg, var(--violet), var(--violet-light));
+      border-radius: 100px; transition: width 0.6s cubic-bezier(0.22,1,0.36,1);
       box-shadow: 0 0 12px var(--violet-glow);
     }
 
-    .steps-wrapper {
-      flex: 1;
-      position: relative;
-    }
-    .step {
-      display: none;
-      flex-direction: column;
-      gap: 24px;
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    .step.active {
-      display: flex;
-      animation: step-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    }
-    .step.exit {
-      display: flex;
-      animation: step-out 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    }
-    @keyframes step-in {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes step-out {
-      from { opacity: 1; transform: translateY(0); }
-      to { opacity: 0; transform: translateY(-20px); }
-    }
-    @keyframes fade-in-up {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fade-in {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
+    .steps-wrapper { flex: 1; position: relative; }
+    .step { display: none; flex-direction: column; gap: 24px; opacity: 0; transform: translateY(30px); }
+    .step.active { display: flex; animation: step-in 0.5s cubic-bezier(0.22,1,0.36,1) forwards; }
+    .step.exit { display: flex; animation: step-out 0.3s cubic-bezier(0.22,1,0.36,1) forwards; }
+    @keyframes step-in { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes step-out { from{opacity:1;transform:translateY(0)} to{opacity:0;transform:translateY(-20px)} }
+    @keyframes fade-in-up { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes fade-in { from{opacity:0} to{opacity:1} }
 
-    .question-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 32px 28px;
-    }
+    .question-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px 28px; }
     .question-number {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 28px;
-      height: 28px;
-      border-radius: 8px;
-      background: var(--violet-subtle);
-      border: 1px solid rgba(139, 92, 246, 0.2);
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--violet-light);
-      margin-bottom: 16px;
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 28px; height: 28px; border-radius: 8px; background: var(--violet-subtle);
+      border: 1px solid rgba(139,92,246,0.2); font-size: 13px; font-weight: 600;
+      color: var(--violet-light); margin-bottom: 16px;
     }
-    .question-title {
-      font-size: 20px;
-      font-weight: 600;
-      letter-spacing: -0.3px;
-      line-height: 1.3;
-      margin-bottom: 8px;
-    }
-    .question-desc {
-      color: var(--gray);
-      font-size: 14px;
-      line-height: 1.6;
-      margin-bottom: 24px;
-    }
+    .question-title { font-size: 20px; font-weight: 600; letter-spacing: -0.3px; line-height: 1.3; margin-bottom: 8px; }
+    .question-desc { color: var(--gray); font-size: 14px; line-height: 1.6; margin-bottom: 24px; }
 
     .input-group { position: relative; }
-    .input-row {
-      display: flex;
-      gap: 12px;
-    }
+    .input-row { display: flex; gap: 12px; }
     .input-row .input-group { flex: 1; }
-    textarea,
-    input[type="text"] {
-      width: 100%;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 16px 18px;
-      font-family: 'Inter', sans-serif;
-      font-size: 15px;
-      color: var(--white);
-      outline: none;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-      resize: none;
+    textarea, input[type="text"] {
+      width: 100%; background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+      border-radius: 12px; padding: 16px 18px; font-family: 'Inter',sans-serif;
+      font-size: 15px; color: var(--white); outline: none; resize: none;
+      transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
     }
     textarea { min-height: 120px; }
-    textarea:focus,
-    input[type="text"]:focus {
-      border-color: rgba(139, 92, 246, 0.4);
-      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
-      background: rgba(139, 92, 246, 0.03);
+    textarea:focus, input[type="text"]:focus {
+      border-color: rgba(139,92,246,0.4); box-shadow: 0 0 0 3px rgba(139,92,246,0.1);
+      background: rgba(139,92,246,0.03);
     }
-    textarea::placeholder,
-    input[type="text"]::placeholder {
-      color: var(--gray);
-    }
+    textarea::placeholder, input[type="text"]::placeholder { color: var(--gray); }
 
-    .slider-container {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-    .slider-value {
-      text-align: center;
-      font-size: 56px;
-      font-weight: 700;
-      color: var(--violet-light);
-      line-height: 1;
-      transition: transform 0.2s ease;
-    }
-    .slider-value .suffix {
-      font-size: 24px;
-      color: var(--gray);
-      font-weight: 400;
-    }
-    .slider-labels {
-      display: flex;
-      justify-content: space-between;
-      font-size: 12px;
-      color: var(--gray);
-      padding: 0 2px;
-    }
+    .slider-container { display: flex; flex-direction: column; gap: 20px; }
+    .slider-value { text-align: center; font-size: 56px; font-weight: 700; color: var(--violet-light); line-height: 1; transition: transform 0.2s; }
+    .slider-value .suffix { font-size: 24px; color: var(--gray); font-weight: 400; }
+    .slider-labels { display: flex; justify-content: space-between; font-size: 12px; color: var(--gray); padding: 0 2px; }
     input[type="range"] {
-      -webkit-appearance: none;
-      width: 100%;
-      height: 6px;
-      border-radius: 100px;
-      background: linear-gradient(to right,
-        var(--violet) 0%,
-        var(--violet) var(--val, 50%),
-        rgba(255,255,255,0.06) var(--val, 50%),
-        rgba(255,255,255,0.06) 100%
-      );
-      outline: none;
-      cursor: pointer;
+      -webkit-appearance: none; width: 100%; height: 6px; border-radius: 100px;
+      background: linear-gradient(to right, var(--violet) 0%, var(--violet) var(--val,50%), rgba(255,255,255,0.06) var(--val,50%), rgba(255,255,255,0.06) 100%);
+      outline: none; cursor: pointer;
     }
     input[type="range"]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      background: var(--white);
-      box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.3), 0 2px 8px rgba(0,0,0,0.4);
-      cursor: pointer;
-      transition: box-shadow 0.2s ease, transform 0.2s ease;
+      -webkit-appearance: none; width: 24px; height: 24px; border-radius: 50%; background: var(--white);
+      box-shadow: 0 0 0 4px rgba(139,92,246,0.3), 0 2px 8px rgba(0,0,0,0.4);
+      cursor: pointer; transition: box-shadow 0.2s, transform 0.2s;
     }
-    input[type="range"]::-webkit-slider-thumb:hover {
-      box-shadow: 0 0 0 6px rgba(139, 92, 246, 0.4), 0 2px 12px rgba(0,0,0,0.5);
-      transform: scale(1.1);
-    }
-    input[type="range"]::-moz-range-thumb {
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      background: var(--white);
-      border: none;
-      box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.3), 0 2px 8px rgba(0,0,0,0.4);
-      cursor: pointer;
-    }
+    input[type="range"]::-webkit-slider-thumb:hover { box-shadow: 0 0 0 6px rgba(139,92,246,0.4), 0 2px 12px rgba(0,0,0,0.5); transform: scale(1.1); }
+    input[type="range"]::-moz-range-thumb { width: 24px; height: 24px; border-radius: 50%; background: var(--white); border: none; box-shadow: 0 0 0 4px rgba(139,92,246,0.3), 0 2px 8px rgba(0,0,0,0.4); cursor: pointer; }
 
-    .options-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
+    .options-grid { display: flex; flex-wrap: wrap; gap: 10px; }
     .option-pill {
-      padding: 10px 18px;
-      border-radius: 100px;
-      border: 1px solid var(--border);
-      background: rgba(255, 255, 255, 0.02);
-      font-size: 14px;
-      color: var(--gray-light);
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-      user-select: none;
+      padding: 10px 18px; border-radius: 100px; border: 1px solid var(--border);
+      background: rgba(255,255,255,0.02); font-size: 14px; color: var(--gray-light);
+      cursor: pointer; transition: all 0.3s cubic-bezier(0.22,1,0.36,1); user-select: none;
     }
-    .option-pill:hover {
-      border-color: rgba(139, 92, 246, 0.3);
-      color: var(--white);
-      background: var(--violet-subtle);
-    }
-    .option-pill.selected {
-      border-color: var(--violet);
-      background: rgba(139, 92, 246, 0.15);
-      color: var(--white);
-      box-shadow: 0 0 16px rgba(139, 92, 246, 0.15);
-    }
+    .option-pill:hover { border-color: rgba(139,92,246,0.3); color: var(--white); background: var(--violet-subtle); }
+    .option-pill.selected { border-color: var(--violet); background: rgba(139,92,246,0.15); color: var(--white); box-shadow: 0 0 16px rgba(139,92,246,0.15); }
 
-    .nav-buttons {
-      display: flex;
-      gap: 12px;
-      margin-top: 8px;
-    }
+    .nav-buttons { display: flex; gap: 12px; margin-top: 8px; }
     .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 14px 28px;
-      border-radius: 12px;
-      font-family: 'Inter', sans-serif;
-      font-size: 15px;
-      font-weight: 500;
-      cursor: pointer;
-      border: none;
-      transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-      position: relative;
-      overflow: hidden;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 14px 28px; border-radius: 12px; font-family: 'Inter',sans-serif;
+      font-size: 15px; font-weight: 500; cursor: pointer; border: none;
+      transition: all 0.3s cubic-bezier(0.22,1,0.36,1); position: relative; overflow: hidden;
     }
-    .btn-back {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--border);
-      color: var(--gray-light);
-    }
-    .btn-back:hover {
-      background: rgba(255, 255, 255, 0.06);
-      color: var(--white);
-    }
-    .btn-next {
-      flex: 1;
-      background: linear-gradient(135deg, var(--violet), #7c3aed);
-      color: var(--white);
-      box-shadow: 0 4px 20px rgba(139, 92, 246, 0.3);
-    }
-    .btn-next:hover {
-      box-shadow: 0 6px 28px rgba(139, 92, 246, 0.45);
-      transform: translateY(-1px);
-    }
-    .btn-next:active {
-      transform: translateY(0);
-      box-shadow: 0 2px 12px rgba(139, 92, 246, 0.3);
-    }
-    .btn-next:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-      transform: none;
-      box-shadow: none;
-    }
-    .btn svg {
-      width: 18px;
-      height: 18px;
-      flex-shrink: 0;
-    }
+    .btn-back { background: rgba(255,255,255,0.04); border: 1px solid var(--border); color: var(--gray-light); }
+    .btn-back:hover { background: rgba(255,255,255,0.06); color: var(--white); }
+    .btn-next { flex: 1; background: linear-gradient(135deg, var(--violet), #7c3aed); color: var(--white); box-shadow: 0 4px 20px rgba(139,92,246,0.3); }
+    .btn-next:hover { box-shadow: 0 6px 28px rgba(139,92,246,0.45); transform: translateY(-1px); }
+    .btn-next:active { transform: translateY(0); box-shadow: 0 2px 12px rgba(139,92,246,0.3); }
+    .btn-next:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
+    .btn svg { width: 18px; height: 18px; flex-shrink: 0; }
 
-    .success-screen {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 60px 20px;
-      gap: 20px;
-    }
-    .success-screen.active {
-      display: flex;
-      animation: step-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    }
+    .success-screen { display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 60px 20px; gap: 20px; }
+    .success-screen.active { display: flex; animation: step-in 0.6s cubic-bezier(0.22,1,0.36,1) forwards; }
     .success-icon {
-      width: 72px;
-      height: 72px;
-      border-radius: 50%;
+      width: 72px; height: 72px; border-radius: 50%;
       background: linear-gradient(135deg, var(--violet), #7c3aed);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 0 40px rgba(139, 92, 246, 0.3);
-      animation: success-pop 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 40px rgba(139,92,246,0.3);
+      animation: success-pop 0.5s cubic-bezier(0.22,1,0.36,1) 0.2s both;
     }
-    @keyframes success-pop {
-      from { transform: scale(0); }
-      to { transform: scale(1); }
-    }
+    @keyframes success-pop { from{transform:scale(0)} to{transform:scale(1)} }
     .success-icon svg { width: 32px; height: 32px; color: var(--white); }
-    .success-screen h2 {
-      font-size: 28px;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-    }
-    .success-screen p {
-      color: var(--gray-light);
-      font-size: 15px;
-      line-height: 1.6;
-      max-width: 380px;
-    }
+    .success-screen h2 { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; }
+    .success-screen p { color: var(--gray-light); font-size: 15px; line-height: 1.6; max-width: 380px; }
 
-    .keyboard-hint {
-      text-align: center;
-      margin-top: 16px;
-      font-size: 12px;
-      color: var(--gray);
-      opacity: 0;
-      animation: fade-in 0.6s ease 1s forwards;
-    }
-    .keyboard-hint kbd {
-      display: inline-flex;
-      padding: 2px 8px;
-      border-radius: 6px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid var(--border);
-      font-family: 'Inter', sans-serif;
-      font-size: 11px;
-      margin: 0 2px;
-    }
+    .keyboard-hint { text-align: center; margin-top: 16px; font-size: 12px; color: var(--gray); opacity: 0; animation: fade-in 0.6s ease 1s forwards; }
+    .keyboard-hint kbd { display: inline-flex; padding: 2px 8px; border-radius: 6px; background: rgba(255,255,255,0.06); border: 1px solid var(--border); font-family: 'Inter',sans-serif; font-size: 11px; margin: 0 2px; }
 
-    @media (max-width: 480px) {
+    /* ── Modal overlay ── */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; z-index: 200;
+      background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+      align-items: center; justify-content: center; padding: 20px;
+    }
+    .modal-overlay.open { display: flex; animation: fade-in 0.25s ease; }
+    .modal-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 36px 32px; width: 100%; max-width: 400px; text-align: center;
+      animation: step-in 0.3s cubic-bezier(0.22,1,0.36,1);
+    }
+    .modal-card .lock-icon {
+      width: 48px; height: 48px; border-radius: 50%; background: var(--violet-subtle);
+      border: 1px solid rgba(139,92,246,0.2); display: inline-flex;
+      align-items: center; justify-content: center; margin-bottom: 20px;
+    }
+    .modal-card .lock-icon svg { width: 22px; height: 22px; color: var(--violet-light); }
+    .modal-card h2 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+    .modal-card p { color: var(--gray); font-size: 14px; margin-bottom: 24px; }
+    .modal-card input[type="password"] {
+      width: 100%; background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+      border-radius: 12px; padding: 14px 18px; font-family: 'Inter',sans-serif;
+      font-size: 15px; color: var(--white); outline: none; text-align: center;
+      letter-spacing: 2px; margin-bottom: 12px; transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .modal-card input[type="password"]:focus { border-color: rgba(139,92,246,0.4); box-shadow: 0 0 0 3px rgba(139,92,246,0.1); }
+    .modal-card input[type="password"]::placeholder { letter-spacing: 0; color: var(--gray); }
+    .modal-error { color: #f87171; font-size: 13px; margin-bottom: 10px; display: none; }
+    .modal-btn {
+      width: 100%; padding: 14px; border-radius: 12px; border: none;
+      background: linear-gradient(135deg, var(--violet), #7c3aed); color: var(--white);
+      font-family: 'Inter',sans-serif; font-size: 15px; font-weight: 500; cursor: pointer;
+      transition: box-shadow 0.3s, transform 0.2s;
+    }
+    .modal-btn:hover { box-shadow: 0 6px 28px rgba(139,92,246,0.4); transform: translateY(-1px); }
+
+    /* ── Dashboard view ── */
+    .admin-view { display: none; position: relative; z-index: 1; min-height: 100vh; }
+    .admin-view.visible { display: block; animation: fade-in 0.3s ease; }
+
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 32px; border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; background: var(--black); z-index: 10;
+    }
+    .topbar h1 { font-size: 20px; font-weight: 600; }
+    .topbar-actions { display: flex; gap: 10px; align-items: center; }
+    .topbar-btn {
+      display: inline-flex; align-items: center; gap: 6px; padding: 10px 16px;
+      border-radius: 10px; border: 1px solid var(--border); background: rgba(255,255,255,0.03);
+      color: var(--gray-light); font-family: 'Inter',sans-serif; font-size: 13px;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .topbar-btn:hover { background: rgba(255,255,255,0.06); color: var(--white); }
+    .topbar-btn svg { width: 16px; height: 16px; }
+
+    .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; padding: 24px 32px; }
+    .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 20px; }
+    .stat-label { font-size: 13px; color: var(--gray); margin-bottom: 6px; }
+    .stat-value { font-size: 28px; font-weight: 700; }
+    .stat-value.violet { color: var(--violet-light); }
+
+    .responses-list { padding: 8px 32px 48px; }
+    .response-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 24px; margin-bottom: 16px; animation: fade-in 0.4s ease;
+    }
+    .response-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--border);
+    }
+    .response-person { display: flex; align-items: center; gap: 12px; }
+    .response-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--violet), #7c3aed);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; font-weight: 700; color: var(--white); flex-shrink: 0;
+    }
+    .response-name { font-size: 16px; font-weight: 600; }
+    .response-meta { font-size: 12px; color: var(--gray); }
+    .response-date { font-size: 13px; color: var(--violet-light); font-weight: 500; }
+    .response-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .response-field { display: flex; flex-direction: column; gap: 4px; }
+    .response-field.full { grid-column: 1 / -1; }
+    .field-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--gray); font-weight: 600; }
+    .field-value { font-size: 14px; color: var(--white); line-height: 1.5; }
+    .field-value .pill { display: inline-flex; padding: 4px 12px; border-radius: 100px; background: var(--violet-subtle); border: 1px solid rgba(139,92,246,0.2); font-size: 13px; color: var(--violet-light); }
+    .conviction-badge { display: inline-flex; align-items: center; padding: 4px 12px; border-radius: 100px; font-size: 14px; font-weight: 600; }
+    .conviction-low { background: rgba(248,113,113,0.1); color: #f87171; border: 1px solid rgba(248,113,113,0.2); }
+    .conviction-mid { background: rgba(251,191,36,0.1); color: #fbbf24; border: 1px solid rgba(251,191,36,0.2); }
+    .conviction-high { background: rgba(52,211,153,0.1); color: #34d399; border: 1px solid rgba(52,211,153,0.2); }
+
+    .empty-state { text-align: center; padding: 80px 20px; color: var(--gray); }
+    .empty-state h2 { font-size: 20px; color: var(--white); margin-bottom: 8px; }
+
+    @media (max-width: 600px) {
       .container { padding: 24px 16px 48px; }
       .header { padding: 24px 0 32px; }
       .header h1 { font-size: 26px; }
@@ -473,396 +295,456 @@
       .question-title { font-size: 18px; }
       .slider-value { font-size: 44px; }
       .input-row { flex-direction: column; gap: 12px; }
+      .topbar { padding: 16px; flex-direction: column; gap: 12px; align-items: flex-start; }
+      .stats-row, .responses-list { padding-left: 16px; padding-right: 16px; }
+      .response-grid { grid-template-columns: 1fr; }
+      .admin-link { top: 12px; right: 12px; padding: 6px 12px; font-size: 12px; }
     }
   </style>
 </head>
 <body>
   <div class="bg-glow"></div>
 
-  <div class="container">
-    <header class="header">
-      <div class="badge"><span class="dot"></span> Formulaire confidentiel</div>
-      <h1>Ton <span>feedback</span> compte</h1>
-      <p>Aide-moi à comprendre ton parcours. Ça prend 2 minutes et ça m'aide énormément à m'améliorer.</p>
-    </header>
+  <!-- Admin button -->
+  <a class="admin-link" onclick="openAdminModal()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    Admin
+  </a>
 
-    <div class="progress-container">
-      <div class="progress-info">
-        <span class="progress-step">Question <strong id="current-step">1</strong> sur <strong>9</strong></span>
-        <span class="progress-pct" id="progress-pct">11%</span>
+  <!-- Password modal -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal-card">
+      <div class="lock-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
       </div>
-      <div class="progress-track">
-        <div class="progress-fill" id="progress-fill" style="width: 11%"></div>
-      </div>
-    </div>
-
-    <div class="steps-wrapper">
-
-      <!-- Step 1: Nom / Prénom -->
-      <div class="step active" data-step="1">
-        <div class="question-card">
-          <div class="question-number">1</div>
-          <h2 class="question-title">Avant de commencer</h2>
-          <p class="question-desc">Dis-moi qui tu es pour que je puisse associer tes réponses.</p>
-          <div class="input-row">
-            <div class="input-group">
-              <input type="text" data-field="prenom" placeholder="Prénom" autocomplete="given-name">
-            </div>
-            <div class="input-group">
-              <input type="text" data-field="nom" placeholder="Nom" autocomplete="family-name">
-            </div>
-          </div>
-        </div>
-        <div class="nav-buttons">
-          <button class="btn btn-next" onclick="nextStep()" id="btn-next-1" disabled>
-            Continuer
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-          </button>
-        </div>
-        <div class="keyboard-hint">Appuie sur <kbd>Entrée ↵</kbd> pour continuer</div>
-      </div>
-
-      <!-- Step 2: Découverte -->
-      <div class="step" data-step="2">
-        <div class="question-card">
-          <div class="question-number">2</div>
-          <h2 class="question-title">Premier point de contact</h2>
-          <p class="question-desc">Comment tu m'as découvert ? (Reel, YouTube, story, quelqu'un t'en a parlé ?)</p>
-          <div class="options-grid" data-field="discovery">
-            <div class="option-pill" data-value="Reel Instagram">Reel Instagram</div>
-            <div class="option-pill" data-value="YouTube">YouTube</div>
-            <div class="option-pill" data-value="Story">Story</div>
-            <div class="option-pill" data-value="TikTok">TikTok</div>
-            <div class="option-pill" data-value="Bouche à oreille">Bouche à oreille</div>
-            <div class="option-pill" data-value="Autre">Autre</div>
-          </div>
-        </div>
-        <div class="nav-buttons">
-          <button class="btn btn-back" onclick="prevStep()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
-          </button>
-          <button class="btn btn-next" onclick="nextStep()" disabled>
-            Continuer
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-          </button>
-        </div>
-        <div class="keyboard-hint">Appuie sur <kbd>Entrée ↵</kbd> pour continuer</div>
-      </div>
-
-      <!-- Step 3: Conviction -->
-      <div class="step" data-step="3">
-        <div class="question-card">
-          <div class="question-number">3</div>
-          <h2 class="question-title">Niveau de conviction avant l'appel</h2>
-          <p class="question-desc">De 1 à 10, t'étais convaincu à combien AVANT l'appel ?</p>
-          <div class="slider-container">
-            <div class="slider-value" id="slider-display">5<span class="suffix">/10</span></div>
-            <input type="range" id="conviction-slider" min="1" max="10" value="5" step="1" data-field="conviction">
-            <div class="slider-labels">
-              <span>Pas du tout</span>
-              <span>Totalement convaincu</span>
-            </div>
-          </div>
-        </div>
-        <div class="nav-buttons">
-          <button class="btn btn-back" onclick="prevStep()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
-          </button>
-          <button class="btn btn-next" onclick="nextStep()">
-            Continuer
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-          </button>
-        </div>
-      </div>
-
-      <!-- Step 4: Pourquoi moi -->
-      <div class="step" data-step="4">
-        <div class="question-card">
-          <div class="question-number">4</div>
-          <h2 class="question-title">Pourquoi moi spécifiquement ?</h2>
-          <p class="question-desc">T'as vu d'autres personnes parler de business en ligne. Pourquoi t'as choisi moi ?</p>
-          <div class="input-group">
-            <textarea data-field="why-me" placeholder="Dis-moi ce qui a fait la différence..."></textarea>
-          </div>
-        </div>
-        <div class="nav-buttons">
-          <button class="btn btn-back" onclick="prevStep()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
-          </button>
-          <button class="btn btn-next" onclick="nextStep()" disabled>
-            Continuer
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-          </button>
-        </div>
-        <div class="keyboard-hint">Appuie sur <kbd>⌘</kbd> + <kbd>Entrée ↵</kbd> pour continuer</div>
-      </div>
-
-      <!-- Step 5: Déclic conversion -->
-      <div class="step" data-step="5">
-        <div class="question-card">
-          <div class="question-number">5</div>
-          <h2 class="question-title">Qu'est-ce qui t'a fait convertir ?</h2>
-          <p class="question-desc">C'est quoi le déclic exact qui t'a fait passer à l'action ?</p>
-          <div class="input-group">
-            <textarea data-field="conversion-trigger" placeholder="Raconte-moi ce moment décisif..."></textarea>
-          </div>
-        </div>
-        <div class="nav-buttons">
-          <button class="btn btn-back" onclick="prevStep()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
-          </button>
-          <button class="btn btn-next" onclick="nextStep()" disabled>
-            Continuer
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-          </button>
-        </div>
-        <div class="keyboard-hint">Appuie sur <kbd>⌘</kbd> + <kbd>Entrée ↵</kbd> pour continuer</div>
-      </div>
-
-      <!-- Step 6: Supports -->
-      <div class="step" data-step="6">
-        <div class="question-card">
-          <div class="question-number">6</div>
-          <h2 class="question-title">Conversion après envoi de supports</h2>
-          <p class="question-desc">Est-ce qu'une vidéo YouTube, un prompt (une ressource gratuite) ou une story en particulier a renforcé ta décision ?</p>
-          <div class="input-group">
-            <textarea data-field="support-content" placeholder="Quel contenu a eu le plus d'impact pour toi..."></textarea>
-          </div>
-        </div>
-        <div class="nav-buttons">
-          <button class="btn btn-back" onclick="prevStep()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
-          </button>
-          <button class="btn btn-next" onclick="nextStep()" disabled>
-            Continuer
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-          </button>
-        </div>
-        <div class="keyboard-hint">Appuie sur <kbd>⌘</kbd> + <kbd>Entrée ↵</kbd> pour continuer</div>
-      </div>
-
-      <!-- Step 7: Hésitations -->
-      <div class="step" data-step="7">
-        <div class="question-card">
-          <div class="question-number">7</div>
-          <h2 class="question-title">Tes plus grandes hésitations</h2>
-          <p class="question-desc">C'est quoi le truc qui te faisait le plus douter avant de te lancer ?</p>
-          <div class="input-group">
-            <textarea data-field="hesitations" placeholder="Qu'est-ce qui te retenait..."></textarea>
-          </div>
-        </div>
-        <div class="nav-buttons">
-          <button class="btn btn-back" onclick="prevStep()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
-          </button>
-          <button class="btn btn-next" onclick="nextStep()" disabled>
-            Continuer
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-          </button>
-        </div>
-        <div class="keyboard-hint">Appuie sur <kbd>⌘</kbd> + <kbd>Entrée ↵</kbd> pour continuer</div>
-      </div>
-
-      <!-- Step 8: Alternatives -->
-      <div class="step" data-step="8">
-        <div class="question-card">
-          <div class="question-number">8</div>
-          <h2 class="question-title">Alternatives considérées</h2>
-          <p class="question-desc">T'avais regardé d'autres formations ou accompagnements avant ? C'est quoi qui t'a fait convertir dans MON accompagnement spécifiquement et pas dans un autre ?</p>
-          <div class="input-group">
-            <textarea data-field="alternatives" placeholder="Parle-moi des autres options que t'avais envisagées..."></textarea>
-          </div>
-        </div>
-        <div class="nav-buttons">
-          <button class="btn btn-back" onclick="prevStep()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
-          </button>
-          <button class="btn btn-next" onclick="nextStep()" disabled>
-            Continuer
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-          </button>
-        </div>
-        <div class="keyboard-hint">Appuie sur <kbd>⌘</kbd> + <kbd>Entrée ↵</kbd> pour continuer</div>
-      </div>
-
-      <!-- Step 9: Temps de décision -->
-      <div class="step" data-step="9">
-        <div class="question-card">
-          <div class="question-number">9</div>
-          <h2 class="question-title">Temps de décision</h2>
-          <p class="question-desc">Combien de temps s'est écoulé entre ton premier contact avec mon contenu et ton achat ?</p>
-          <div class="options-grid" data-field="decision-time">
-            <div class="option-pill" data-value="Moins d'une semaine">Moins d'une semaine</div>
-            <div class="option-pill" data-value="1 à 2 semaines">1 à 2 semaines</div>
-            <div class="option-pill" data-value="2 à 4 semaines">2 à 4 semaines</div>
-            <div class="option-pill" data-value="1 à 3 mois">1 à 3 mois</div>
-            <div class="option-pill" data-value="Plus de 3 mois">Plus de 3 mois</div>
-          </div>
-        </div>
-        <div class="nav-buttons">
-          <button class="btn btn-back" onclick="prevStep()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
-          </button>
-          <button class="btn btn-next" onclick="submitForm()" id="btn-submit" disabled>
-            Envoyer mes réponses
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="m22 2-7 20-4-9-9-4 20-7z"/></svg>
-          </button>
-        </div>
-      </div>
-
-      <!-- Success -->
-      <div class="success-screen" id="success-screen">
-        <div class="success-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
-        </div>
-        <h2>Merci beaucoup !</h2>
-        <p>Tes réponses sont précieuses et vont m'aider à m'améliorer. À très vite !</p>
-      </div>
-
+      <h2>Espace Admin</h2>
+      <p>Entre ton mot de passe pour voir les réponses</p>
+      <input type="password" id="admin-password" placeholder="Mot de passe" autocomplete="off">
+      <div class="modal-error" id="modal-error">Mot de passe incorrect</div>
+      <button class="modal-btn" onclick="loginAdmin()">Accéder</button>
     </div>
   </div>
 
+  <!-- ══════════ FORM VIEW ══════════ -->
+  <div class="form-view" id="form-view">
+    <div class="container">
+      <header class="header">
+        <div class="badge"><span class="dot"></span> Formulaire confidentiel</div>
+        <h1>Ton <span>feedback</span> compte</h1>
+        <p>Aide-moi à comprendre ton parcours. Ça prend 2 minutes et ça m'aide énormément à m'améliorer.</p>
+      </header>
+
+      <div class="progress-container" id="progress-container">
+        <div class="progress-info">
+          <span class="progress-step">Question <strong id="current-step">1</strong> sur <strong>9</strong></span>
+          <span class="progress-pct" id="progress-pct">11%</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="progress-fill" style="width: 11%"></div>
+        </div>
+      </div>
+
+      <div class="steps-wrapper">
+        <!-- Step 1: Nom -->
+        <div class="step active" data-step="1">
+          <div class="question-card">
+            <div class="question-number">1</div>
+            <h2 class="question-title">Avant de commencer</h2>
+            <p class="question-desc">Dis-moi qui tu es pour que je puisse associer tes réponses.</p>
+            <div class="input-row">
+              <div class="input-group"><input type="text" data-field="prenom" placeholder="Prénom" autocomplete="given-name"></div>
+              <div class="input-group"><input type="text" data-field="nom" placeholder="Nom" autocomplete="family-name"></div>
+            </div>
+          </div>
+          <div class="nav-buttons">
+            <button class="btn btn-next" onclick="nextStep()" id="btn-next-1" disabled>Continuer <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+          </div>
+          <div class="keyboard-hint">Appuie sur <kbd>Entrée ↵</kbd> pour continuer</div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step" data-step="2">
+          <div class="question-card">
+            <div class="question-number">2</div>
+            <h2 class="question-title">Premier point de contact</h2>
+            <p class="question-desc">Comment tu m'as découvert ? (Reel, YouTube, story, quelqu'un t'en a parlé ?)</p>
+            <div class="options-grid" data-field="discovery">
+              <div class="option-pill" data-value="Reel Instagram">Reel Instagram</div>
+              <div class="option-pill" data-value="YouTube">YouTube</div>
+              <div class="option-pill" data-value="Story">Story</div>
+              <div class="option-pill" data-value="TikTok">TikTok</div>
+              <div class="option-pill" data-value="Bouche à oreille">Bouche à oreille</div>
+              <div class="option-pill" data-value="Autre">Autre</div>
+            </div>
+          </div>
+          <div class="nav-buttons">
+            <button class="btn btn-back" onclick="prevStep()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg></button>
+            <button class="btn btn-next" onclick="nextStep()" disabled>Continuer <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step" data-step="3">
+          <div class="question-card">
+            <div class="question-number">3</div>
+            <h2 class="question-title">Niveau de conviction avant l'appel</h2>
+            <p class="question-desc">De 1 à 10, t'étais convaincu à combien AVANT l'appel ?</p>
+            <div class="slider-container">
+              <div class="slider-value" id="slider-display">5<span class="suffix">/10</span></div>
+              <input type="range" id="conviction-slider" min="1" max="10" value="5" step="1" data-field="conviction">
+              <div class="slider-labels"><span>Pas du tout</span><span>Totalement convaincu</span></div>
+            </div>
+          </div>
+          <div class="nav-buttons">
+            <button class="btn btn-back" onclick="prevStep()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg></button>
+            <button class="btn btn-next" onclick="nextStep()">Continuer <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="step" data-step="4">
+          <div class="question-card">
+            <div class="question-number">4</div>
+            <h2 class="question-title">Pourquoi moi spécifiquement ?</h2>
+            <p class="question-desc">T'as vu d'autres personnes parler de business en ligne. Pourquoi t'as choisi moi ?</p>
+            <div class="input-group"><textarea data-field="why-me" placeholder="Dis-moi ce qui a fait la différence..."></textarea></div>
+          </div>
+          <div class="nav-buttons">
+            <button class="btn btn-back" onclick="prevStep()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg></button>
+            <button class="btn btn-next" onclick="nextStep()" disabled>Continuer <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+          </div>
+          <div class="keyboard-hint">Appuie sur <kbd>⌘</kbd> + <kbd>Entrée ↵</kbd> pour continuer</div>
+        </div>
+
+        <!-- Step 5 -->
+        <div class="step" data-step="5">
+          <div class="question-card">
+            <div class="question-number">5</div>
+            <h2 class="question-title">Qu'est-ce qui t'a fait convertir ?</h2>
+            <p class="question-desc">C'est quoi le déclic exact qui t'a fait passer à l'action ?</p>
+            <div class="input-group"><textarea data-field="conversion-trigger" placeholder="Raconte-moi ce moment décisif..."></textarea></div>
+          </div>
+          <div class="nav-buttons">
+            <button class="btn btn-back" onclick="prevStep()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg></button>
+            <button class="btn btn-next" onclick="nextStep()" disabled>Continuer <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+          </div>
+          <div class="keyboard-hint">Appuie sur <kbd>⌘</kbd> + <kbd>Entrée ↵</kbd> pour continuer</div>
+        </div>
+
+        <!-- Step 6 -->
+        <div class="step" data-step="6">
+          <div class="question-card">
+            <div class="question-number">6</div>
+            <h2 class="question-title">Conversion après envoi de supports</h2>
+            <p class="question-desc">Est-ce qu'une vidéo YouTube, un prompt (une ressource gratuite) ou une story en particulier a renforcé ta décision ?</p>
+            <div class="input-group"><textarea data-field="support-content" placeholder="Quel contenu a eu le plus d'impact pour toi..."></textarea></div>
+          </div>
+          <div class="nav-buttons">
+            <button class="btn btn-back" onclick="prevStep()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg></button>
+            <button class="btn btn-next" onclick="nextStep()" disabled>Continuer <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+          </div>
+          <div class="keyboard-hint">Appuie sur <kbd>⌘</kbd> + <kbd>Entrée ↵</kbd> pour continuer</div>
+        </div>
+
+        <!-- Step 7 -->
+        <div class="step" data-step="7">
+          <div class="question-card">
+            <div class="question-number">7</div>
+            <h2 class="question-title">Tes plus grandes hésitations</h2>
+            <p class="question-desc">C'est quoi le truc qui te faisait le plus douter avant de te lancer ?</p>
+            <div class="input-group"><textarea data-field="hesitations" placeholder="Qu'est-ce qui te retenait..."></textarea></div>
+          </div>
+          <div class="nav-buttons">
+            <button class="btn btn-back" onclick="prevStep()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg></button>
+            <button class="btn btn-next" onclick="nextStep()" disabled>Continuer <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+          </div>
+          <div class="keyboard-hint">Appuie sur <kbd>⌘</kbd> + <kbd>Entrée ↵</kbd> pour continuer</div>
+        </div>
+
+        <!-- Step 8 -->
+        <div class="step" data-step="8">
+          <div class="question-card">
+            <div class="question-number">8</div>
+            <h2 class="question-title">Alternatives considérées</h2>
+            <p class="question-desc">T'avais regardé d'autres formations ou accompagnements avant ? C'est quoi qui t'a fait convertir dans MON accompagnement spécifiquement et pas dans un autre ?</p>
+            <div class="input-group"><textarea data-field="alternatives" placeholder="Parle-moi des autres options que t'avais envisagées..."></textarea></div>
+          </div>
+          <div class="nav-buttons">
+            <button class="btn btn-back" onclick="prevStep()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg></button>
+            <button class="btn btn-next" onclick="nextStep()" disabled>Continuer <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+          </div>
+          <div class="keyboard-hint">Appuie sur <kbd>⌘</kbd> + <kbd>Entrée ↵</kbd> pour continuer</div>
+        </div>
+
+        <!-- Step 9 -->
+        <div class="step" data-step="9">
+          <div class="question-card">
+            <div class="question-number">9</div>
+            <h2 class="question-title">Temps de décision</h2>
+            <p class="question-desc">Combien de temps s'est écoulé entre ton premier contact avec mon contenu et ton achat ?</p>
+            <div class="options-grid" data-field="decision-time">
+              <div class="option-pill" data-value="Moins d'une semaine">Moins d'une semaine</div>
+              <div class="option-pill" data-value="1 à 2 semaines">1 à 2 semaines</div>
+              <div class="option-pill" data-value="2 à 4 semaines">2 à 4 semaines</div>
+              <div class="option-pill" data-value="1 à 3 mois">1 à 3 mois</div>
+              <div class="option-pill" data-value="Plus de 3 mois">Plus de 3 mois</div>
+            </div>
+          </div>
+          <div class="nav-buttons">
+            <button class="btn btn-back" onclick="prevStep()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg></button>
+            <button class="btn btn-next" onclick="submitForm()" id="btn-submit" disabled>Envoyer mes réponses <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="m22 2-7 20-4-9-9-4 20-7z"/></svg></button>
+          </div>
+        </div>
+
+        <!-- Success -->
+        <div class="success-screen" id="success-screen">
+          <div class="success-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+          <h2>Merci beaucoup !</h2>
+          <p>Tes réponses sont précieuses et vont m'aider à m'améliorer. À très vite !</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ ADMIN VIEW ══════════ -->
+  <div class="admin-view" id="admin-view">
+    <div class="topbar">
+      <h1>Réponses du formulaire</h1>
+      <div class="topbar-actions">
+        <button class="topbar-btn" onclick="refreshAdmin()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 21h5v-5"/></svg>
+          Rafraîchir
+        </button>
+        <button class="topbar-btn" onclick="exportCSV()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Exporter CSV
+        </button>
+        <button class="topbar-btn" onclick="closeAdmin()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          Fermer
+        </button>
+      </div>
+    </div>
+    <div class="stats-row" id="stats-row"></div>
+    <div class="responses-list" id="responses-list"></div>
+  </div>
+
   <script>
+    /* ── Form logic ── */
     let currentStep = 1;
     const totalSteps = 9;
     const formData = {};
 
-    // Name validation (step 1 has two fields)
     function validateNameStep() {
-      const prenom = document.querySelector('input[data-field="prenom"]');
-      const nom = document.querySelector('input[data-field="nom"]');
+      const p = document.querySelector('input[data-field="prenom"]');
+      const n = document.querySelector('input[data-field="nom"]');
       const btn = document.getElementById('btn-next-1');
-      if (prenom && nom && btn) {
-        btn.disabled = prenom.value.trim().length < 2 || nom.value.trim().length < 2;
-        formData['prenom'] = prenom.value.trim();
-        formData['nom'] = nom.value.trim();
+      if (p && n && btn) {
+        btn.disabled = p.value.trim().length < 2 || n.value.trim().length < 2;
+        formData.prenom = p.value.trim();
+        formData.nom = n.value.trim();
       }
     }
-    document.querySelectorAll('input[data-field="prenom"], input[data-field="nom"]').forEach(input => {
-      input.addEventListener('input', validateNameStep);
-    });
+    document.querySelectorAll('input[data-field="prenom"],input[data-field="nom"]').forEach(i => i.addEventListener('input', validateNameStep));
 
-    // Option pills
     document.querySelectorAll('.options-grid').forEach(grid => {
       grid.querySelectorAll('.option-pill').forEach(pill => {
         pill.addEventListener('click', () => {
           grid.querySelectorAll('.option-pill').forEach(s => s.classList.remove('selected'));
           pill.classList.add('selected');
           formData[grid.dataset.field] = pill.dataset.value;
-          const nextBtn = pill.closest('.step').querySelector('.btn-next');
-          if (nextBtn) nextBtn.disabled = false;
+          const btn = pill.closest('.step').querySelector('.btn-next');
+          if (btn) btn.disabled = false;
         });
       });
     });
 
-    // Textarea validation
-    document.querySelectorAll('textarea').forEach(input => {
-      input.addEventListener('input', () => {
-        const nextBtn = input.closest('.step').querySelector('.btn-next');
-        if (nextBtn) nextBtn.disabled = input.value.trim().length < 3;
-        formData[input.dataset.field] = input.value.trim();
+    document.querySelectorAll('textarea').forEach(t => {
+      t.addEventListener('input', () => {
+        const btn = t.closest('.step').querySelector('.btn-next');
+        if (btn) btn.disabled = t.value.trim().length < 3;
+        formData[t.dataset.field] = t.value.trim();
       });
     });
 
-    // Slider
     const slider = document.getElementById('conviction-slider');
     const sliderDisplay = document.getElementById('slider-display');
     if (slider) {
-      const updateSlider = () => {
-        const val = slider.value;
-        slider.style.setProperty('--val', ((val - 1) / 9) * 100 + '%');
-        sliderDisplay.innerHTML = val + '<span class="suffix">/10</span>';
-        formData['conviction'] = val;
+      const up = () => {
+        const v = slider.value;
+        slider.style.setProperty('--val', ((v-1)/9)*100+'%');
+        sliderDisplay.innerHTML = v+'<span class="suffix">/10</span>';
+        formData.conviction = v;
         sliderDisplay.style.transform = 'scale(1.05)';
         setTimeout(() => sliderDisplay.style.transform = 'scale(1)', 150);
       };
-      slider.addEventListener('input', updateSlider);
-      updateSlider();
+      slider.addEventListener('input', up); up();
     }
 
     function updateProgress() {
-      const pct = Math.round((currentStep / totalSteps) * 100);
+      const pct = Math.round((currentStep/totalSteps)*100);
       document.getElementById('current-step').textContent = currentStep;
-      document.getElementById('progress-pct').textContent = pct + '%';
-      document.getElementById('progress-fill').style.width = pct + '%';
+      document.getElementById('progress-pct').textContent = pct+'%';
+      document.getElementById('progress-fill').style.width = pct+'%';
     }
 
     function nextStep() {
       if (currentStep >= totalSteps) return;
-      const current = document.querySelector(`.step[data-step="${currentStep}"]`);
-      const nextBtn = current.querySelector('.btn-next');
-      if (nextBtn && nextBtn.disabled) return;
-
-      current.classList.remove('active');
-      current.classList.add('exit');
+      const cur = document.querySelector(`.step[data-step="${currentStep}"]`);
+      const btn = cur.querySelector('.btn-next');
+      if (btn && btn.disabled) return;
+      cur.classList.remove('active'); cur.classList.add('exit');
       setTimeout(() => {
-        current.classList.remove('exit');
-        current.style.display = 'none';
-        currentStep++;
-        updateProgress();
-        const next = document.querySelector(`.step[data-step="${currentStep}"]`);
-        next.classList.add('active');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        const autofocus = next.querySelector('textarea, input[type="text"]');
-        if (autofocus) setTimeout(() => autofocus.focus(), 400);
+        cur.classList.remove('exit'); cur.style.display = 'none';
+        currentStep++; updateProgress();
+        const nxt = document.querySelector(`.step[data-step="${currentStep}"]`);
+        nxt.classList.add('active');
+        window.scrollTo({top:0,behavior:'smooth'});
+        const af = nxt.querySelector('textarea,input[type="text"]');
+        if (af) setTimeout(() => af.focus(), 400);
       }, 300);
     }
 
     function prevStep() {
       if (currentStep <= 1) return;
-      const current = document.querySelector(`.step[data-step="${currentStep}"]`);
-      current.classList.remove('active');
-      current.style.display = 'none';
-      currentStep--;
-      updateProgress();
-      const prev = document.querySelector(`.step[data-step="${currentStep}"]`);
-      prev.style.display = '';
-      prev.classList.add('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      const cur = document.querySelector(`.step[data-step="${currentStep}"]`);
+      cur.classList.remove('active'); cur.style.display = 'none';
+      currentStep--; updateProgress();
+      const prv = document.querySelector(`.step[data-step="${currentStep}"]`);
+      prv.style.display = ''; prv.classList.add('active');
+      window.scrollTo({top:0,behavior:'smooth'});
     }
 
     function submitForm() {
-      const submitBtn = document.getElementById('btn-submit');
-      if (submitBtn.disabled) return;
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Envoi en cours…';
-
-      fetch('/api/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      })
-        .then(r => r.json())
-        .then(() => showSuccess())
-        .catch(() => showSuccess());
+      const btn = document.getElementById('btn-submit');
+      if (btn.disabled) return;
+      btn.disabled = true; btn.textContent = 'Envoi en cours…';
+      fetch('/api/submit', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(formData)})
+        .then(r => r.json()).then(() => showSuccess()).catch(() => showSuccess());
     }
 
     function showSuccess() {
-      const current = document.querySelector(`.step[data-step="${currentStep}"]`);
-      current.classList.remove('active');
-      current.classList.add('exit');
-      document.querySelector('.progress-container').style.display = 'none';
-      setTimeout(() => {
-        current.classList.remove('exit');
-        current.style.display = 'none';
-        document.getElementById('success-screen').classList.add('active');
-      }, 300);
+      const cur = document.querySelector(`.step[data-step="${currentStep}"]`);
+      cur.classList.remove('active'); cur.classList.add('exit');
+      document.getElementById('progress-container').style.display = 'none';
+      setTimeout(() => { cur.classList.remove('exit'); cur.style.display = 'none'; document.getElementById('success-screen').classList.add('active'); }, 300);
     }
 
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener('keydown', e => {
+      if (document.getElementById('admin-view').classList.contains('visible')) return;
+      if (document.getElementById('modal-overlay').classList.contains('open')) {
+        if (e.key === 'Enter') loginAdmin();
+        if (e.key === 'Escape') closeModal();
+        return;
+      }
       if (e.key === 'Enter') {
-        const activeStep = document.querySelector('.step.active');
-        if (!activeStep) return;
-        const textarea = activeStep.querySelector('textarea');
-        if (textarea && document.activeElement === textarea && !e.metaKey && !e.ctrlKey) return;
-        const nextBtn = activeStep.querySelector('.btn-next');
-        if (nextBtn && !nextBtn.disabled) {
-          e.preventDefault();
-          if (currentStep === totalSteps) submitForm();
-          else nextStep();
-        }
+        const step = document.querySelector('.step.active');
+        if (!step) return;
+        const ta = step.querySelector('textarea');
+        if (ta && document.activeElement === ta && !e.metaKey && !e.ctrlKey) return;
+        const btn = step.querySelector('.btn-next');
+        if (btn && !btn.disabled) { e.preventDefault(); currentStep === totalSteps ? submitForm() : nextStep(); }
       }
     });
+
+    /* ── Admin logic ── */
+    let adminPassword = '';
+
+    function openAdminModal() {
+      document.getElementById('modal-overlay').classList.add('open');
+      document.getElementById('modal-error').style.display = 'none';
+      document.getElementById('admin-password').value = '';
+      setTimeout(() => document.getElementById('admin-password').focus(), 100);
+    }
+
+    function closeModal() {
+      document.getElementById('modal-overlay').classList.remove('open');
+    }
+
+    document.getElementById('modal-overlay').addEventListener('click', e => {
+      if (e.target === e.currentTarget) closeModal();
+    });
+
+    function loginAdmin() {
+      adminPassword = document.getElementById('admin-password').value;
+      fetch(`/api/responses?password=${encodeURIComponent(adminPassword)}`)
+        .then(r => { if (!r.ok) throw new Error(); return r.json(); })
+        .then(data => { closeModal(); showAdmin(data); })
+        .catch(() => { document.getElementById('modal-error').style.display = 'block'; });
+    }
+
+    function showAdmin(data) {
+      document.getElementById('form-view').style.display = 'none';
+      document.querySelector('.admin-link').style.display = 'none';
+      document.getElementById('admin-view').classList.add('visible');
+      window.scrollTo({top:0});
+      renderDashboard(data);
+    }
+
+    function closeAdmin() {
+      document.getElementById('admin-view').classList.remove('visible');
+      document.getElementById('form-view').style.display = '';
+      document.querySelector('.admin-link').style.display = '';
+      window.scrollTo({top:0});
+    }
+
+    function refreshAdmin() {
+      fetch(`/api/responses?password=${encodeURIComponent(adminPassword)}`)
+        .then(r => r.json()).then(renderDashboard);
+    }
+
+    function exportCSV() {
+      window.open(`/api/export?password=${encodeURIComponent(adminPassword)}`);
+    }
+
+    function renderDashboard(data) {
+      // Stats
+      const total = data.length;
+      const avg = total > 0 ? (data.reduce((s,r) => s+(parseInt(r.conviction)||0), 0)/total).toFixed(1) : '—';
+      const disc = {};
+      data.forEach(r => { if (r.discovery) disc[r.discovery] = (disc[r.discovery]||0)+1; });
+      const top = Object.entries(disc).sort((a,b) => b[1]-a[1])[0];
+
+      document.getElementById('stats-row').innerHTML = `
+        <div class="stat-card"><div class="stat-label">Total réponses</div><div class="stat-value violet">${total}</div></div>
+        <div class="stat-card"><div class="stat-label">Conviction moyenne</div><div class="stat-value">${avg}<span style="font-size:16px;color:var(--gray)">/10</span></div></div>
+        <div class="stat-card"><div class="stat-label">Canal #1</div><div class="stat-value" style="font-size:18px">${top ? top[0] : '—'}</div></div>
+      `;
+
+      // Responses
+      const el = document.getElementById('responses-list');
+      if (!data.length) { el.innerHTML = '<div class="empty-state"><h2>Aucune réponse</h2><p>Les réponses apparaîtront ici dès qu\'on remplira le formulaire.</p></div>'; return; }
+
+      const rev = [...data].reverse();
+      el.innerHTML = rev.map((r,i) => {
+        const ini = ((r.prenom||'')[0]||'')+((r.nom||'')[0]||'');
+        const cc = (parseInt(r.conviction)||0) <= 4 ? 'conviction-low' : (parseInt(r.conviction)||0) <= 7 ? 'conviction-mid' : 'conviction-high';
+        return `<div class="response-card">
+          <div class="response-header">
+            <div class="response-person">
+              <div class="response-avatar">${esc(ini).toUpperCase()}</div>
+              <div><div class="response-name">${esc(r.prenom)} ${esc(r.nom)}</div><div class="response-meta">#${rev.length-i}</div></div>
+            </div>
+            <span class="response-date">${esc(r.date)}</span>
+          </div>
+          <div class="response-grid">
+            <div class="response-field"><span class="field-label">Découverte</span><span class="field-value"><span class="pill">${esc(r.discovery)}</span></span></div>
+            <div class="response-field"><span class="field-label">Conviction</span><span class="field-value"><span class="conviction-badge ${cc}">${r.conviction||'—'}/10</span></span></div>
+            <div class="response-field full"><span class="field-label">Pourquoi moi</span><span class="field-value">${esc(r['why-me'])}</span></div>
+            <div class="response-field full"><span class="field-label">Déclic conversion</span><span class="field-value">${esc(r['conversion-trigger'])}</span></div>
+            <div class="response-field full"><span class="field-label">Supports</span><span class="field-value">${esc(r['support-content'])}</span></div>
+            <div class="response-field full"><span class="field-label">Hésitations</span><span class="field-value">${esc(r.hesitations)}</span></div>
+            <div class="response-field full"><span class="field-label">Alternatives</span><span class="field-value">${esc(r.alternatives)}</span></div>
+            <div class="response-field"><span class="field-label">Temps décision</span><span class="field-value"><span class="pill">${esc(r['decision-time'])}</span></span></div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    function esc(s) {
+      if (!s) return '<span style="color:var(--gray);font-style:italic">—</span>';
+      const d = document.createElement('div'); d.textContent = s; return d.innerHTML;
+    }
   </script>
 </body>
 </html>
