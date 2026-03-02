@@ -34,7 +34,6 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Background ambient glow */
     .bg-glow {
       position: fixed;
       inset: 0;
@@ -58,7 +57,6 @@
       50% { opacity: 1; transform: translateX(-50%) scale(1.2); }
     }
 
-    /* Container */
     .container {
       position: relative;
       z-index: 1;
@@ -70,7 +68,6 @@
       flex-direction: column;
     }
 
-    /* Header */
     .header {
       text-align: center;
       padding: 40px 0 48px;
@@ -118,7 +115,6 @@
       margin: 0 auto;
     }
 
-    /* Progress bar */
     .progress-container {
       position: sticky;
       top: 0;
@@ -160,7 +156,6 @@
       box-shadow: 0 0 12px var(--violet-glow);
     }
 
-    /* Steps */
     .steps-wrapper {
       flex: 1;
       position: relative;
@@ -197,7 +192,6 @@
       to { opacity: 1; }
     }
 
-    /* Question card */
     .question-card {
       background: var(--card);
       border: 1px solid var(--border);
@@ -232,8 +226,12 @@
       margin-bottom: 24px;
     }
 
-    /* Text input / textarea */
     .input-group { position: relative; }
+    .input-row {
+      display: flex;
+      gap: 12px;
+    }
+    .input-row .input-group { flex: 1; }
     textarea,
     input[type="text"] {
       width: 100%;
@@ -260,7 +258,6 @@
       color: var(--gray);
     }
 
-    /* Slider (range) */
     .slider-container {
       display: flex;
       flex-direction: column;
@@ -299,7 +296,6 @@
       );
       outline: none;
       cursor: pointer;
-      transition: background 0.1s;
     }
     input[type="range"]::-webkit-slider-thumb {
       -webkit-appearance: none;
@@ -325,7 +321,6 @@
       cursor: pointer;
     }
 
-    /* Option pills */
     .options-grid {
       display: flex;
       flex-wrap: wrap;
@@ -354,7 +349,6 @@
       box-shadow: 0 0 16px rgba(139, 92, 246, 0.15);
     }
 
-    /* Navigation */
     .nav-buttons {
       display: flex;
       gap: 12px;
@@ -411,7 +405,6 @@
       flex-shrink: 0;
     }
 
-    /* Success state */
     .success-screen {
       display: none;
       flex-direction: column;
@@ -453,7 +446,6 @@
       max-width: 380px;
     }
 
-    /* Keyboard hint */
     .keyboard-hint {
       text-align: center;
       margin-top: 16px;
@@ -473,7 +465,6 @@
       margin: 0 2px;
     }
 
-    /* Responsive */
     @media (max-width: 480px) {
       .container { padding: 24px 16px 48px; }
       .header { padding: 24px 0 32px; }
@@ -481,6 +472,7 @@
       .question-card { padding: 24px 20px; }
       .question-title { font-size: 18px; }
       .slider-value { font-size: 44px; }
+      .input-row { flex-direction: column; gap: 12px; }
     }
   </style>
 </head>
@@ -496,20 +488,44 @@
 
     <div class="progress-container">
       <div class="progress-info">
-        <span class="progress-step">Question <strong id="current-step">1</strong> sur <strong>8</strong></span>
-        <span class="progress-pct" id="progress-pct">12%</span>
+        <span class="progress-step">Question <strong id="current-step">1</strong> sur <strong>9</strong></span>
+        <span class="progress-pct" id="progress-pct">11%</span>
       </div>
       <div class="progress-track">
-        <div class="progress-fill" id="progress-fill" style="width: 12.5%"></div>
+        <div class="progress-fill" id="progress-fill" style="width: 11%"></div>
       </div>
     </div>
 
     <div class="steps-wrapper">
 
-      <!-- Step 1 -->
+      <!-- Step 1: Nom / Prénom -->
       <div class="step active" data-step="1">
         <div class="question-card">
           <div class="question-number">1</div>
+          <h2 class="question-title">Avant de commencer</h2>
+          <p class="question-desc">Dis-moi qui tu es pour que je puisse associer tes réponses.</p>
+          <div class="input-row">
+            <div class="input-group">
+              <input type="text" data-field="prenom" placeholder="Prénom" autocomplete="given-name">
+            </div>
+            <div class="input-group">
+              <input type="text" data-field="nom" placeholder="Nom" autocomplete="family-name">
+            </div>
+          </div>
+        </div>
+        <div class="nav-buttons">
+          <button class="btn btn-next" onclick="nextStep()" id="btn-next-1" disabled>
+            Continuer
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </button>
+        </div>
+        <div class="keyboard-hint">Appuie sur <kbd>Entrée ↵</kbd> pour continuer</div>
+      </div>
+
+      <!-- Step 2: Découverte -->
+      <div class="step" data-step="2">
+        <div class="question-card">
+          <div class="question-number">2</div>
           <h2 class="question-title">Premier point de contact</h2>
           <p class="question-desc">Comment tu m'as découvert ? (Reel, YouTube, story, quelqu'un t'en a parlé ?)</p>
           <div class="options-grid" data-field="discovery">
@@ -522,7 +538,10 @@
           </div>
         </div>
         <div class="nav-buttons">
-          <button class="btn btn-next" onclick="nextStep()" id="btn-next-1" disabled>
+          <button class="btn btn-back" onclick="prevStep()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+          </button>
+          <button class="btn btn-next" onclick="nextStep()" disabled>
             Continuer
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </button>
@@ -530,10 +549,10 @@
         <div class="keyboard-hint">Appuie sur <kbd>Entrée ↵</kbd> pour continuer</div>
       </div>
 
-      <!-- Step 2 -->
-      <div class="step" data-step="2">
+      <!-- Step 3: Conviction -->
+      <div class="step" data-step="3">
         <div class="question-card">
-          <div class="question-number">2</div>
+          <div class="question-number">3</div>
           <h2 class="question-title">Niveau de conviction avant l'appel</h2>
           <p class="question-desc">De 1 à 10, t'étais convaincu à combien AVANT l'appel ?</p>
           <div class="slider-container">
@@ -556,10 +575,10 @@
         </div>
       </div>
 
-      <!-- Step 3 -->
-      <div class="step" data-step="3">
+      <!-- Step 4: Pourquoi moi -->
+      <div class="step" data-step="4">
         <div class="question-card">
-          <div class="question-number">3</div>
+          <div class="question-number">4</div>
           <h2 class="question-title">Pourquoi moi spécifiquement ?</h2>
           <p class="question-desc">T'as vu d'autres personnes parler de business en ligne. Pourquoi t'as choisi moi ?</p>
           <div class="input-group">
@@ -578,10 +597,10 @@
         <div class="keyboard-hint">Appuie sur <kbd>⌘</kbd> + <kbd>Entrée ↵</kbd> pour continuer</div>
       </div>
 
-      <!-- Step 4 -->
-      <div class="step" data-step="4">
+      <!-- Step 5: Déclic conversion -->
+      <div class="step" data-step="5">
         <div class="question-card">
-          <div class="question-number">4</div>
+          <div class="question-number">5</div>
           <h2 class="question-title">Qu'est-ce qui t'a fait convertir ?</h2>
           <p class="question-desc">C'est quoi le déclic exact qui t'a fait passer à l'action ?</p>
           <div class="input-group">
@@ -600,10 +619,10 @@
         <div class="keyboard-hint">Appuie sur <kbd>⌘</kbd> + <kbd>Entrée ↵</kbd> pour continuer</div>
       </div>
 
-      <!-- Step 5 -->
-      <div class="step" data-step="5">
+      <!-- Step 6: Supports -->
+      <div class="step" data-step="6">
         <div class="question-card">
-          <div class="question-number">5</div>
+          <div class="question-number">6</div>
           <h2 class="question-title">Conversion après envoi de supports</h2>
           <p class="question-desc">Est-ce qu'une vidéo YouTube, un prompt (une ressource gratuite) ou une story en particulier a renforcé ta décision ?</p>
           <div class="input-group">
@@ -622,10 +641,10 @@
         <div class="keyboard-hint">Appuie sur <kbd>⌘</kbd> + <kbd>Entrée ↵</kbd> pour continuer</div>
       </div>
 
-      <!-- Step 6 -->
-      <div class="step" data-step="6">
+      <!-- Step 7: Hésitations -->
+      <div class="step" data-step="7">
         <div class="question-card">
-          <div class="question-number">6</div>
+          <div class="question-number">7</div>
           <h2 class="question-title">Tes plus grandes hésitations</h2>
           <p class="question-desc">C'est quoi le truc qui te faisait le plus douter avant de te lancer ?</p>
           <div class="input-group">
@@ -644,10 +663,10 @@
         <div class="keyboard-hint">Appuie sur <kbd>⌘</kbd> + <kbd>Entrée ↵</kbd> pour continuer</div>
       </div>
 
-      <!-- Step 7 -->
-      <div class="step" data-step="7">
+      <!-- Step 8: Alternatives -->
+      <div class="step" data-step="8">
         <div class="question-card">
-          <div class="question-number">7</div>
+          <div class="question-number">8</div>
           <h2 class="question-title">Alternatives considérées</h2>
           <p class="question-desc">T'avais regardé d'autres formations ou accompagnements avant ? C'est quoi qui t'a fait convertir dans MON accompagnement spécifiquement et pas dans un autre ?</p>
           <div class="input-group">
@@ -666,10 +685,10 @@
         <div class="keyboard-hint">Appuie sur <kbd>⌘</kbd> + <kbd>Entrée ↵</kbd> pour continuer</div>
       </div>
 
-      <!-- Step 8 -->
-      <div class="step" data-step="8">
+      <!-- Step 9: Temps de décision -->
+      <div class="step" data-step="9">
         <div class="question-card">
-          <div class="question-number">8</div>
+          <div class="question-number">9</div>
           <h2 class="question-title">Temps de décision</h2>
           <p class="question-desc">Combien de temps s'est écoulé entre ton premier contact avec mon contenu et ton achat ?</p>
           <div class="options-grid" data-field="decision-time">
@@ -705,32 +724,41 @@
 
   <script>
     let currentStep = 1;
-    const totalSteps = 8;
+    const totalSteps = 9;
     const formData = {};
 
-    // Option pills selection
+    // Name validation (step 1 has two fields)
+    function validateNameStep() {
+      const prenom = document.querySelector('input[data-field="prenom"]');
+      const nom = document.querySelector('input[data-field="nom"]');
+      const btn = document.getElementById('btn-next-1');
+      if (prenom && nom && btn) {
+        btn.disabled = prenom.value.trim().length < 2 || nom.value.trim().length < 2;
+        formData['prenom'] = prenom.value.trim();
+        formData['nom'] = nom.value.trim();
+      }
+    }
+    document.querySelectorAll('input[data-field="prenom"], input[data-field="nom"]').forEach(input => {
+      input.addEventListener('input', validateNameStep);
+    });
+
+    // Option pills
     document.querySelectorAll('.options-grid').forEach(grid => {
       grid.querySelectorAll('.option-pill').forEach(pill => {
         pill.addEventListener('click', () => {
-          const field = grid.dataset.field;
-          const siblings = grid.querySelectorAll('.option-pill');
-
-          siblings.forEach(s => s.classList.remove('selected'));
+          grid.querySelectorAll('.option-pill').forEach(s => s.classList.remove('selected'));
           pill.classList.add('selected');
-          formData[field] = pill.dataset.value;
-
-          const step = pill.closest('.step');
-          const nextBtn = step.querySelector('.btn-next');
+          formData[grid.dataset.field] = pill.dataset.value;
+          const nextBtn = pill.closest('.step').querySelector('.btn-next');
           if (nextBtn) nextBtn.disabled = false;
         });
       });
     });
 
-    // Textarea / input validation
-    document.querySelectorAll('textarea, input[type="text"]').forEach(input => {
+    // Textarea validation
+    document.querySelectorAll('textarea').forEach(input => {
       input.addEventListener('input', () => {
-        const step = input.closest('.step');
-        const nextBtn = step.querySelector('.btn-next');
+        const nextBtn = input.closest('.step').querySelector('.btn-next');
         if (nextBtn) nextBtn.disabled = input.value.trim().length < 3;
         formData[input.dataset.field] = input.value.trim();
       });
@@ -742,8 +770,7 @@
     if (slider) {
       const updateSlider = () => {
         const val = slider.value;
-        const pct = ((val - 1) / 9) * 100;
-        slider.style.setProperty('--val', pct + '%');
+        slider.style.setProperty('--val', ((val - 1) / 9) * 100 + '%');
         sliderDisplay.innerHTML = val + '<span class="suffix">/10</span>';
         formData['conviction'] = val;
         sliderDisplay.style.transform = 'scale(1.05)';
@@ -762,24 +789,20 @@
 
     function nextStep() {
       if (currentStep >= totalSteps) return;
-
       const current = document.querySelector(`.step[data-step="${currentStep}"]`);
       const nextBtn = current.querySelector('.btn-next');
       if (nextBtn && nextBtn.disabled) return;
 
       current.classList.remove('active');
       current.classList.add('exit');
-
       setTimeout(() => {
         current.classList.remove('exit');
         current.style.display = 'none';
         currentStep++;
         updateProgress();
-
         const next = document.querySelector(`.step[data-step="${currentStep}"]`);
         next.classList.add('active');
         window.scrollTo({ top: 0, behavior: 'smooth' });
-
         const autofocus = next.querySelector('textarea, input[type="text"]');
         if (autofocus) setTimeout(() => autofocus.focus(), 400);
       }, 300);
@@ -787,14 +810,11 @@
 
     function prevStep() {
       if (currentStep <= 1) return;
-
       const current = document.querySelector(`.step[data-step="${currentStep}"]`);
       current.classList.remove('active');
       current.style.display = 'none';
-
       currentStep--;
       updateProgress();
-
       const prev = document.querySelector(`.step[data-step="${currentStep}"]`);
       prev.style.display = '';
       prev.classList.add('active');
@@ -804,7 +824,6 @@
     function submitForm() {
       const submitBtn = document.getElementById('btn-submit');
       if (submitBtn.disabled) return;
-
       submitBtn.disabled = true;
       submitBtn.textContent = 'Envoi en cours…';
 
@@ -822,9 +841,7 @@
       const current = document.querySelector(`.step[data-step="${currentStep}"]`);
       current.classList.remove('active');
       current.classList.add('exit');
-
       document.querySelector('.progress-container').style.display = 'none';
-
       setTimeout(() => {
         current.classList.remove('exit');
         current.style.display = 'none';
@@ -832,15 +849,12 @@
       }, 300);
     }
 
-    // Keyboard navigation
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
         const activeStep = document.querySelector('.step.active');
         if (!activeStep) return;
-
         const textarea = activeStep.querySelector('textarea');
         if (textarea && document.activeElement === textarea && !e.metaKey && !e.ctrlKey) return;
-
         const nextBtn = activeStep.querySelector('.btn-next');
         if (nextBtn && !nextBtn.disabled) {
           e.preventDefault();

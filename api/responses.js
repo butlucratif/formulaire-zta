@@ -1,8 +1,8 @@
 import { Redis } from '@upstash/redis';
 
 const redis = new Redis({
-  url: process.env.KV_REST_API_URL,
-  token: process.env.KV_REST_API_TOKEN,
+  url: process.env.UPSTASH_REDIS_REST_URL,
+  token: process.env.UPSTASH_REDIS_REST_TOKEN,
 });
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'zta2026';
@@ -16,7 +16,7 @@ export default async function handler(req, res) {
     return res.status(401).json({ error: 'Mot de passe incorrect' });
   }
 
-  const raw = await redis.lrange('responses', 0, -1);
+  const raw = await redis.lrange('form-responses', 0, -1);
   const data = raw.map(item => typeof item === 'string' ? JSON.parse(item) : item);
 
   return res.status(200).json(data);

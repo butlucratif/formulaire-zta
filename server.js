@@ -8,7 +8,7 @@ const DATA_FILE = path.join(__dirname, 'responses.json');
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'zta2026';
 
 app.use(express.json());
-app.use(express.static(__dirname));
+app.use(express.static(path.join(__dirname, 'public')));
 
 function readResponses() {
   if (!fs.existsSync(DATA_FILE)) return [];
@@ -23,22 +23,18 @@ function saveResponses(data) {
   fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2), 'utf-8');
 }
 
-// Receive form submission
 app.post('/api/submit', (req, res) => {
   const response = {
     id: Date.now(),
     date: new Date().toLocaleString('fr-FR', { timeZone: 'Europe/Paris' }),
     ...req.body,
   };
-
   const responses = readResponses();
   responses.push(response);
   saveResponses(responses);
-
   res.json({ success: true });
 });
 
-// Admin API — password check via query param
 app.get('/api/responses', (req, res) => {
   if (req.query.password !== ADMIN_PASSWORD) {
     return res.status(401).json({ error: 'Mot de passe incorrect' });
@@ -46,19 +42,16 @@ app.get('/api/responses', (req, res) => {
   res.json(readResponses());
 });
 
-// CSV export
 app.get('/api/export', (req, res) => {
   if (req.query.password !== ADMIN_PASSWORD) {
     return res.status(401).json({ error: 'Mot de passe incorrect' });
   }
 
   const responses = readResponses();
-  if (responses.length === 0) {
-    return res.status(404).send('Aucune réponse');
-  }
+  if (responses.length === 0) return res.status(404).send('Aucune réponse');
 
-  const headers = ['date', 'discovery', 'conviction', 'why-me', 'conversion-trigger', 'support-content', 'hesitations', 'alternatives', 'decision-time'];
-  const headerLabels = ['Date', 'Découverte', 'Conviction /10', 'Pourquoi moi', 'Déclic conversion', 'Supports', 'Hésitations', 'Alternatives', 'Temps décision'];
+  const headers = ['date', 'prenom', 'nom', 'discovery', 'conviction', 'why-me', 'conversion-trigger', 'support-content', 'hesitations', 'alternatives', 'decision-time'];
+  const headerLabels = ['Date', 'Prénom', 'Nom', 'Découverte', 'Conviction /10', 'Pourquoi moi', 'Déclic conversion', 'Supports', 'Hésitations', 'Alternatives', 'Temps décision'];
 
   const csvRows = [headerLabels.join(',')];
   for (const r of responses) {
