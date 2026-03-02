@@ -519,6 +519,10 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           Exporter CSV
         </button>
+        <button class="topbar-btn" onclick="deleteAll()" style="color:#f87171;border-color:rgba(248,113,113,0.2)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+          Tout supprimer
+        </button>
         <button class="topbar-btn" onclick="closeAdmin()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
           Fermer
@@ -697,6 +701,24 @@
       window.open(`/api/export?password=${encodeURIComponent(adminPassword)}`);
     }
 
+    function deleteOne(id) {
+      if (!confirm('Supprimer cette réponse ?')) return;
+      fetch('/api/delete', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ password: adminPassword, id })
+      }).then(r => r.json()).then(() => refreshAdmin());
+    }
+
+    function deleteAll() {
+      if (!confirm('Supprimer TOUTES les réponses ? Cette action est irréversible.')) return;
+      fetch('/api/delete', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ password: adminPassword, id: 'all' })
+      }).then(r => r.json()).then(() => refreshAdmin());
+    }
+
     function renderDashboard(data) {
       // Stats
       const total = data.length;
@@ -725,7 +747,12 @@
               <div class="response-avatar">${esc(ini).toUpperCase()}</div>
               <div><div class="response-name">${esc(r.prenom)} ${esc(r.nom)}</div><div class="response-meta">#${rev.length-i}</div></div>
             </div>
-            <span class="response-date">${esc(r.date)}</span>
+            <div style="display:flex;align-items:center;gap:12px">
+              <span class="response-date">${esc(r.date)}</span>
+              <button onclick="deleteOne(${r.id})" class="topbar-btn" style="padding:6px 10px;color:#f87171;border-color:rgba(248,113,113,0.2)" title="Supprimer">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+              </button>
+            </div>
           </div>
           <div class="response-grid">
             <div class="response-field"><span class="field-label">Découverte</span><span class="field-value"><span class="pill">${esc(r.discovery)}</span></span></div>
