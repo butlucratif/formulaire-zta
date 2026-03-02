@@ -5,7 +5,7 @@ const redis = new Redis({
   token: process.env.UPSTASH_REDIS_REST_TOKEN,
 });
 
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'zta2026';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'Ylopesdeoli02100!';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
