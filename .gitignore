@@ -1,0 +1,4 @@
+node_modules/
+responses.json
+.vercel/
+.env

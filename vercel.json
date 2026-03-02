@@ -1,0 +1,9 @@
+{
+  "buildCommand": "",
+  "outputDirectory": "public",
+  "rewrites": [
+    { "source": "/api/submit", "destination": "/api/submit" },
+    { "source": "/api/responses", "destination": "/api/responses" },
+    { "source": "/api/export", "destination": "/api/export" }
+  ]
+}
